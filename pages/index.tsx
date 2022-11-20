@@ -1,5 +1,7 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { SlLogout } from 'react-icons/sl'
+import { RiFridgeLine } from 'react-icons/ri'
 
 export default function Home() {
   const session = useSession()
@@ -13,10 +15,17 @@ export default function Home() {
     <div className="mx-auto w-[1200px] max-w-full">
       <main className="p-6">
         <div className="mb-5 flex justify-between">
-          <h1 className="text-3xl">Best Before</h1>
+          <h1 className="text-3xl flex items-center gap-1">
+            <RiFridgeLine />
+            <span>Best Before</span>
+          </h1>
 
-          <button className="button" onClick={() => supabase.auth.signOut()}>
-            Sign Out
+          <button
+            className="button flex items-center gap-2"
+            onClick={() => supabase.auth.signOut()}
+          >
+            <SlLogout />
+            <span>Sign Out</span>
           </button>
         </div>
 
@@ -31,7 +40,8 @@ export default function Home() {
           bottle synth mlkshk. Ennui tonx bespoke cardigan subway tile pop-up pok pok squid.
         </blockquote>
       </main>
-      <footer className="p-6 text-center text-xs text-gray-500">Powered by ☕️</footer>
+
+      <footer className="p-6 text-center text-xs text-gray-500">Powered by ☕️ and 🍕</footer>
     </div>
   )
 }
