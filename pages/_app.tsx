@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps<{ initialSession:
     <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
       <Head>
         <title>Best Before</title>
-        <meta name="description" content="Record your for recording use-by dates for a variety of products" />
+        <meta name="description" content="Record your use-by dates for a variety of products" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
