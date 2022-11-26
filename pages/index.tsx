@@ -1,15 +1,21 @@
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSessionContext, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 export default function Home() {
-  const session = useSession()
+  const { session, isLoading } = useSessionContext()
   const supabase = useSupabaseClient()
 
-  return !session ? (
-    <div className="mx-auto w-[500px] max-w-full">
-      <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" magicLink />
-    </div>
-  ) : (
+  if (!session) {
+    return isLoading ? (
+      <div>Loading...</div>
+    ) : (
+      <div className="mx-auto w-[500px] max-w-full">
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" magicLink />
+      </div>
+    )
+  }
+
+  return (
     <>
       <p>Some Hipster Ipsum:</p>
 
