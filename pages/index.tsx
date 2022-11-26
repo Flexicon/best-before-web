@@ -32,8 +32,7 @@ export default function Home() {
       alert(`Failed to add demo product: ${JSON.stringify(error)}`)
       return
     }
-    fetchProducts()
-  }, [supabase, fetchProducts])
+  }, [supabase])
 
   const addDemoProducts = useCallback(async () => {
     const { error } = await supabase.from('products').insert([
@@ -46,8 +45,7 @@ export default function Home() {
       alert(`Failed to add demo product: ${JSON.stringify(error)}`)
       return
     }
-    fetchProducts()
-  }, [supabase, fetchProducts])
+  }, [supabase])
 
   const deleteProduct = useCallback(
     async (product: Product) => {
@@ -55,16 +53,63 @@ export default function Home() {
 
       if (error) {
         alert(`Failed to delete product: ${JSON.stringify(error)}`)
-        return
       }
-      fetchProducts()
     },
-    [supabase, fetchProducts],
+    [supabase],
+  )
+
+  const incrementProduct = useCallback(
+    async (product: Product) => {
+      const d = new Date(new Date(product.expiry_date).getTime() + 86400000)
+
+      const { error } = await supabase
+        .from('products')
+        .update({ expiry_date: `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}` })
+        .eq('id', product.id)
+
+      if (error) {
+        alert(`Failed to increment product expiry date: ${JSON.stringify(error)}`)
+      }
+    },
+    [supabase],
   )
 
   useEffect(() => {
     if (session) fetchProducts()
   }, [session, fetchProducts])
+
+  // Setup realtime data subscription
+  useEffect(() => {
+    if (!session) return
+
+    const productsSub = supabase
+      .channel('custom-all-product-updates-channel')
+      .on<Product>(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'products' },
+        (payload) => {
+          switch (payload.eventType) {
+            case 'INSERT':
+              setProducts((products) => [...(products ?? []), payload.new])
+              break
+            case 'UPDATE':
+              setProducts(
+                (products) =>
+                  products?.map((p) => (p.id === payload.new.id ? { ...payload.new } : p)) ?? null,
+              )
+              break
+            case 'DELETE':
+              setProducts((products) => products?.filter((p) => p.id != payload.old.id) ?? null)
+              break
+          }
+        },
+      )
+      .subscribe()
+
+    return () => {
+      productsSub.unsubscribe()
+    }
+  }, [session, supabase, setProducts])
 
   if (!session) {
     return isLoading ? (
@@ -98,6 +143,9 @@ export default function Home() {
                     X
                   </button>
                   <span>{`ID: ${p.id} - ${p.name} - ${p.expiry_date}`}</span>
+                  <button className="button ml-2 text-xs" onClick={() => incrementProduct(p)}>
+                    ++
+                  </button>
                 </li>
               ))
             ) : (
