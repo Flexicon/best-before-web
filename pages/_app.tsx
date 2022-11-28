@@ -4,8 +4,12 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider, Session } from '@supabase/auth-helpers-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
+
 import Layout from '../components/Layout'
+
+const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps<{ initialSession: Session }>) {
   const [supabase] = useState(() => createBrowserSupabaseClient())
@@ -18,9 +22,11 @@ export default function App({ Component, pageProps }: AppProps<{ initialSession:
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </QueryClientProvider>
     </SessionContextProvider>
   )
 }
