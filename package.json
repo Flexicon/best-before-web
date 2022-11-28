@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "gen:database": "supabase gen types typescript --project-id hkonfpwakfyllpnufyuf > types/database.types.ts"
   },
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.5.2",
@@ -29,6 +30,7 @@
     "postcss": "^8.4.19",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
+    "supabase": "^1.16.1",
     "tailwindcss": "^3.2.4"
   }
 }

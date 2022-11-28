@@ -2,15 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react'
 import { useSessionContext, useSupabaseClient } from '@supabase/auth-helpers-react'
 
-interface Product {
-  id: number
-  name: string
-  expiry_date: string
-}
+import { Database, Product } from '../types'
 
 export default function Home() {
   const { session, isLoading } = useSessionContext()
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient<Database>()
   const [products, setProducts] = useState<Product[] | null>(null)
 
   const fetchProducts = useCallback(async () => {
