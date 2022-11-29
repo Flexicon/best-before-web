@@ -1,6 +1,6 @@
 import { useSession } from '@supabase/auth-helpers-react'
 
-import { useProductsQuery } from '../hooks/useProductsQuery'
+import { useProductsQuery } from '../hooks/queries'
 import { useRouter } from 'next/router'
 
 export default function Home() {
