@@ -1,16 +1,7 @@
-import { useSession } from '@supabase/auth-helpers-react'
-
 import { useProductsQuery } from '../hooks/queries'
-import { useRouter } from 'next/router'
 
 export default function Home() {
-  const session = useSession()
-  const router = useRouter()
   const { data: products, isLoading } = useProductsQuery()
-
-  if (!session) {
-    router.push('/login')
-  }
 
   return (
     <>
