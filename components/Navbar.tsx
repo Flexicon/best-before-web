@@ -13,12 +13,12 @@ export default function Navbar() {
         <span>Best Before</span>
       </h1>
 
-      {session && (
+      {session ? (
         <button className="button flex items-center gap-2" onClick={() => supabase.auth.signOut()}>
           <SlLogout />
           <span>Sign Out</span>
         </button>
-      )}
+      ) : null}
     </div>
   )
 }

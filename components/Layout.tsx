@@ -1,7 +1,8 @@
 import { useSessionContext } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
-import type { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
+import AppLoader from './AppLoader'
 import Navbar from './Navbar'
 
 const Layout = ({ children }: PropsWithChildren) => {
@@ -16,18 +17,22 @@ const Layout = ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <div
-      className={`mx-auto w-[1200px] max-w-full transition-opacity duration-700 ${
-        showLoader ? 'opacity-0' : 'opacity-100'
-      }`}
-    >
-      <main className="p-6">
-        <Navbar />
-        {!showLoader && children}
-      </main>
+    <>
+      <AppLoader show={showLoader} />
 
-      <footer className="p-6 text-center text-xs text-gray-500">Powered by ☕️ and 🍕</footer>
-    </div>
+      <div
+        className={`mx-auto w-[1200px] max-w-full transition-opacity duration-700 ${
+          showLoader ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <main className="p-6">
+          <Navbar />
+          {!showLoader && children}
+        </main>
+
+        <footer className="p-6 text-center text-xs text-gray-500">Powered by ☕️ and 🍕</footer>
+      </div>
+    </>
   )
 }
 
