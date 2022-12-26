@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import 'styles/globals.css'
 import type { AppProps } from 'next/app'
 
 import Head from 'next/head'
@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Router } from 'next/router'
 
-import Layout from '../components/Layout'
+import Layout from 'components/Layout'
 
 const queryClient = new QueryClient()
 

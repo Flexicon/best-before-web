@@ -1,7 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useQuery } from '@tanstack/react-query'
 
-import type { Database, Product } from '../../types'
+import type { Database, Product } from 'types'
 import { QueryKeys } from './queryKeys'
 
 export const useProductsQuery = () => {

@@ -1,5 +1,5 @@
-import { ProductsList } from '../components/ProductsList'
-import { useProductsQuery } from '../hooks/queries'
+import { ProductsList } from 'components/ProductsList'
+import { useProductsQuery } from 'hooks/queries'
 
 export default function Home() {
   const { data: products, isLoading } = useProductsQuery()

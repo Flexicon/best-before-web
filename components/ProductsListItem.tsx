@@ -3,7 +3,7 @@ import { FaEllipsisH } from 'react-icons/fa'
 import { GiMedicinePills, GiPill } from 'react-icons/gi'
 import { IoFastFood } from 'react-icons/io5'
 
-import type { Product } from '../types'
+import type { Product } from 'types'
 
 const icons = [GiMedicinePills, GiPill, IoFastFood]
 

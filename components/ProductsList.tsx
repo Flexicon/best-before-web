@@ -1,5 +1,5 @@
 import { ProductsListItem } from './ProductsListItem'
-import type { Product } from '../types'
+import type { Product } from 'types'
 
 type Props = {
   products: Product[]
