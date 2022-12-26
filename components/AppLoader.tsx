@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { RiFridgeLine } from 'react-icons/ri'
 import { CSSTransition } from 'react-transition-group'
 
