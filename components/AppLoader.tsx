@@ -8,18 +8,11 @@ type Props = {
 
 const AppLoader = ({ show }: Props) => {
   const nodeRef = useRef(null)
-  const [initialized, setInitialized] = useState(false)
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setInitialized(true), 1)
-
-    return () => clearTimeout(timeout)
-  }, [])
 
   return (
     <CSSTransition
       nodeRef={nodeRef}
-      in={show && initialized}
+      in={show}
       timeout={500}
       classNames="app-loader"
       unmountOnExit
