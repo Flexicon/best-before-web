@@ -67,6 +67,17 @@ export const ProductForm = ({ product, onSubmit }: Props) => {
           <span>Delete</span>
         </button>
       </div>
+
+      {/* TODO: remove when appropriate 🤷‍♂️ */}
+      <hr className="my-10" />
+      <div className="font-mono">
+        <p>TODO:</p>
+        <ul className="list-inside list-disc">
+          <li>submission to api</li>
+          <li>validation</li>
+          <li>loading states</li>
+        </ul>
+      </div>
     </form>
   )
 }
