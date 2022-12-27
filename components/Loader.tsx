@@ -1,6 +1,6 @@
 import { RiLoader5Line } from 'react-icons/ri'
 
-const Loader = () => (
+export const Loader = () => (
   <div className="inline-block">
     <span className="animate-spin">
       <RiLoader5Line />

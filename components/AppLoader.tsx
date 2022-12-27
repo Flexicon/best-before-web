@@ -6,7 +6,7 @@ type Props = {
   show: boolean
 }
 
-const AppLoader = ({ show }: Props) => {
+export const AppLoader = ({ show }: Props) => {
   const nodeRef = useRef(null)
 
   return (

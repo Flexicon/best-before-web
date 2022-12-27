@@ -5,7 +5,7 @@ import { PropsWithChildren } from 'react'
 import AppLoader from './AppLoader'
 import Navbar from './Navbar'
 
-const Layout = ({ children }: PropsWithChildren) => {
+export const Layout = ({ children }: PropsWithChildren) => {
   const { session, isLoading } = useSessionContext()
   const router = useRouter()
 

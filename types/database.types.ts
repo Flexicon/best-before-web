@@ -16,6 +16,7 @@ export interface Database {
           name: string
           expiry_date: string
           user_id: string
+          icon: Database["public"]["Enums"]["icon"]
         }
         Insert: {
           id?: number
@@ -23,6 +24,7 @@ export interface Database {
           name: string
           expiry_date: string
           user_id?: string
+          icon: Database["public"]["Enums"]["icon"]
         }
         Update: {
           id?: number
@@ -30,6 +32,7 @@ export interface Database {
           name?: string
           expiry_date?: string
           user_id?: string
+          icon?: Database["public"]["Enums"]["icon"]
         }
       }
     }
@@ -43,7 +46,7 @@ export interface Database {
       }
     }
     Enums: {
-      [_ in never]: never
+      icon: "pill" | "pills" | "food"
     }
   }
 }

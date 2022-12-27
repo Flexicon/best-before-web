@@ -1,8 +1,10 @@
+import { Database } from "./database.types"
+
 export interface Product {
   id: number
   name: string
   expiry_date: string
-  icon: Icon
+  icon: IconValues
 }
 
-export type Icon = 'pills' | 'pill' | 'food'
+export type IconValues = Database["public"]["Enums"]["icon"]

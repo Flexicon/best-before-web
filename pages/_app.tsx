@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Router } from 'next/router'
 
-import Layout from 'components/Layout'
+import { Layout } from 'components'
 
 const queryClient = new QueryClient()
 

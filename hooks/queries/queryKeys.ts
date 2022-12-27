@@ -1,3 +1,4 @@
 export const QueryKeys = {
-  Products: 'products'
+  Product: 'product',
+  Products: 'products',
 }
