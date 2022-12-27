@@ -1,12 +1,52 @@
-import { Loader, ProductsList } from 'components'
-import { useProductsQuery } from 'hooks/queries'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { GetServerSideProps } from 'next'
 
-export default function Home() {
-  const { data: products, isLoading } = useProductsQuery()
+import { ProductsList } from 'components'
+import { Database, Product } from 'types'
+
+interface PropsError {
+  isError: true
+  products: null
+}
+
+interface PropsSuccess {
+  isError: false
+  products: Product[]
+}
+
+type Props = PropsError | PropsSuccess
+
+export default function Home({ products, isError }: Props) {
+  if (isError) return <div>Something went wrong.</div>
 
   return (
     <div className="pt-5">
-      {!isLoading && products ? <ProductsList products={products} /> : <Loader />}
+      <ProductsList products={products} />
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient<Database>(ctx)
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (!session)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+
+  const { data: products, error } = await supabase.from('products').select('*').order('id')
+
+  return {
+    props: {
+      products,
+      isError: !!error,
+    },
+  }
 }
