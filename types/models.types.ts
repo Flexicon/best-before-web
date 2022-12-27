@@ -1,4 +1,4 @@
-import { Database } from "./database.types"
+import { Database } from './database.types'
 
 export interface Product {
   id: number
@@ -7,4 +7,4 @@ export interface Product {
   icon: IconValues
 }
 
-export type IconValues = Database["public"]["Enums"]["icon"]
+export type IconValues = Database['public']['Enums']['icon']

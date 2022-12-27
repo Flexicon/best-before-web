@@ -20,3 +20,23 @@
 .button {
   @apply rounded bg-gray-200 py-1 px-3 hover:bg-teal-200 active:bg-teal-300;
 }
+
+.button.primary {
+  @apply bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-700;
+}
+
+.button.danger {
+  @apply bg-red-500 text-white hover:bg-red-600 active:bg-red-700;
+}
+
+.input-field {
+  @apply mb-4;
+}
+
+.input-field label {
+  @apply block pb-2 text-sm font-bold text-gray-700;
+}
+
+.input-field input {
+  @apply w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow outline-2 outline-blue-400 hover:outline;
+}
