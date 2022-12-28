@@ -17,6 +17,10 @@
   transition: opacity 1000ms;
 }
 
+.card {
+  @apply rounded  bg-gray-50 p-5 shadow-md;
+}
+
 .button {
   @apply rounded bg-gray-200 py-1 px-3 hover:bg-teal-200 active:bg-teal-300 disabled:opacity-50;
 }
@@ -39,7 +43,7 @@
 
 .input-field input,
 .input-field select {
-  @apply w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow;
+  @apply w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700;
   @apply outline-2 outline-blue-400 hover:outline disabled:bg-gray-200 disabled:outline-none;
 }
 
