@@ -28,53 +28,51 @@ const ProductPage = ({ product, isError }: Props) => {
   const [formError, setFormError] = useState<string | null>(null)
   const hasFormError = !busy && !!formError
 
-  const onSubmit = useCallback(
-    async (form: ProductFormValues) => {
-      if (!product) return
-
-      const { name, expiry_date, icon } = form
+  const handlePersist = useCallback(
+    async (persistFn: () => Promise<any>) => {
       setBusy(true)
       setFormError(null)
       NProgress.start()
 
       try {
+        await persistFn()
+        router.push('/')
+      } catch (error: any) {
+        setFormError(error?.message ?? 'Something went wrong')
+        setBusy(false)
+      } finally {
+        NProgress.done()
+      }
+    },
+    [router],
+  )
+
+  const onSubmit = useCallback(
+    async (form: ProductFormValues) => {
+      if (!product) return
+
+      await handlePersist(async () => {
+        const { name, expiry_date, icon } = form
         const { error } = await supabase
           .from('products')
           .update({ name, expiry_date, icon })
           .eq('id', product.id)
 
-        if (error) setFormError(error.message)
-      } catch (error: any) {
-        setFormError(error?.message ?? 'Something went wrong')
-      } finally {
-        setBusy(false)
-        NProgress.done()
-      }
+        if (error) throw new Error(error.message)
+      })
     },
-    [product, supabase],
+    [product, supabase, handlePersist],
   )
 
   const onDelete = useCallback(async () => {
     if (!product) return
-    setBusy(true)
-    setFormError(null)
-    NProgress.start()
 
-    try {
+    await handlePersist(async () => {
       const { error } = await supabase.from('products').delete().eq('id', product.id)
 
-      if (error) {
-        setFormError(error.message)
-      } else {
-        router.push('/')
-      }
-    } catch (error: any) {
-      setFormError(error?.message ?? 'Something went wrong')
-    } finally {
-      setBusy(false)
-      NProgress.done()
-    }
-  }, [supabase, product, router])
+      if (error) throw new Error(error.message)
+    })
+  }, [supabase, product, handlePersist])
 
   if (isError) return <div className="pt-5">Something went wrong.</div>
 
@@ -85,7 +83,7 @@ const ProductPage = ({ product, isError }: Props) => {
       <ProductForm product={product} disabled={busy} onSubmit={onSubmit} onDelete={onDelete} />
 
       {hasFormError && (
-        <p className="pt-4 text-sm italic text-red-500">Failed to update product: {formError}</p>
+        <p className="pt-4 text-sm italic text-red-500">Request failed: {formError}</p>
       )}
 
       {/* TODO: remove when appropriate 🤷‍♂️ */}
