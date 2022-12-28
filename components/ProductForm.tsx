@@ -3,6 +3,12 @@ import { BiTrash } from 'react-icons/bi'
 
 import { IconValues, Product } from 'types'
 
+const iconOptions: Record<IconValues, string> = {
+  pill: 'Pill',
+  pills: 'Bottle of pills',
+  food: 'Food',
+}
+
 export interface ProductFormValues {
   name: string
   expiry_date: string
@@ -19,7 +25,7 @@ type Props = {
 export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) => {
   const nameInput = useRef<HTMLInputElement>(null)
   const expiryDateInput = useRef<HTMLInputElement>(null)
-  const iconInput = useRef<HTMLInputElement>(null)
+  const iconInput = useRef<HTMLSelectElement>(null)
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -68,14 +74,15 @@ export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) =>
       <div className="input-field">
         <label htmlFor="icon">Icon</label>
 
-        <input
-          ref={iconInput}
-          type="text"
-          name="icon"
-          id="icon"
-          defaultValue={product.icon}
-          disabled={disabled}
-        />
+        <div className="select-wrapper">
+          <select ref={iconInput} id="icon" defaultValue={product.icon} disabled={disabled}>
+            {Object.entries(iconOptions).map(([icon, label]) => (
+              <option key={`${icon}-${label}`} value={icon}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       <div className="mt-7 flex gap-1">

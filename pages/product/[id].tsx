@@ -95,7 +95,7 @@ const ProductPage = ({ product, isError }: Props) => {
           <li>validation</li>
           <li className="line-through">loading states</li>
           <li className="line-through">date picker</li>
-          <li>icons select</li>
+          <li className="line-through">icons select</li>
         </ul>
       </div>
     </div>

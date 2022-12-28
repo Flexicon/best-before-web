@@ -37,7 +37,21 @@
   @apply block pb-2 text-sm font-bold text-gray-700;
 }
 
-.input-field input {
+.input-field input,
+.input-field select {
   @apply w-full appearance-none rounded border py-2 px-3 leading-tight text-gray-700 shadow;
-  @apply outline-2 outline-blue-400 hover:outline disabled:outline-none disabled:bg-gray-200;
+  @apply outline-2 outline-blue-400 hover:outline disabled:bg-gray-200 disabled:outline-none;
+}
+
+.input-field .select-wrapper {
+  position: relative;
+}
+
+.input-field .select-wrapper::after {
+  content: '⌄';
+  position: absolute;
+  font-size: 1.3em;
+  right: 1rem;
+  top: -2px;
+  color: #222;
 }
