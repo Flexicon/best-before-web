@@ -44,7 +44,7 @@ export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) =>
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-[500px] max-w-full">
+    <form onSubmit={handleSubmit}>
       <div className="input-field">
         <label htmlFor="name">Product Name</label>
 
