@@ -11,10 +11,12 @@ export interface ProductFormValues {
 
 type Props = {
   product: Product
+  disabled: boolean
   onSubmit: (values: ProductFormValues) => void
+  onDelete: () => void
 }
 
-export const ProductForm = ({ product, onSubmit }: Props) => {
+export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) => {
   const nameInput = useRef<HTMLInputElement>(null)
   const expiryDateInput = useRef<HTMLInputElement>(null)
   const iconInput = useRef<HTMLInputElement>(null)
@@ -31,12 +33,23 @@ export const ProductForm = ({ product, onSubmit }: Props) => {
     onSubmit(values)
   }
 
+  const handleDelete = () => {
+    if (confirm(`Delete ${product.name}?`)) onDelete()
+  }
+
   return (
     <form onSubmit={handleSubmit} className="w-[500px] max-w-full">
       <div className="input-field">
         <label htmlFor="name">Product Name</label>
 
-        <input ref={nameInput} type="text" name="name" id="name" defaultValue={product.name} />
+        <input
+          ref={nameInput}
+          type="text"
+          name="name"
+          id="name"
+          defaultValue={product.name}
+          disabled={disabled}
+        />
       </div>
 
       <div className="input-field">
@@ -44,39 +57,41 @@ export const ProductForm = ({ product, onSubmit }: Props) => {
 
         <input
           ref={expiryDateInput}
-          type="text"
+          type="date"
           name="expiry_date"
           id="expiry_date"
           defaultValue={product.expiry_date}
+          disabled={disabled}
         />
       </div>
 
       <div className="input-field">
         <label htmlFor="icon">Icon</label>
 
-        <input ref={iconInput} type="text" name="icon" id="icon" defaultValue={product.icon} />
+        <input
+          ref={iconInput}
+          type="text"
+          name="icon"
+          id="icon"
+          defaultValue={product.icon}
+          disabled={disabled}
+        />
       </div>
 
       <div className="mt-7 flex gap-1">
-        <button className="button primary" type="submit">
+        <button className="button primary" type="submit" disabled={disabled}>
           Save
         </button>
 
-        <button className="button danger flex items-center gap-2" onClick={() => {}} type="button">
+        <button
+          className="button danger flex items-center gap-2"
+          onClick={handleDelete}
+          type="button"
+          disabled={disabled}
+        >
           <BiTrash />
           <span>Delete</span>
         </button>
-      </div>
-
-      {/* TODO: remove when appropriate 🤷‍♂️ */}
-      <hr className="my-10" />
-      <div className="font-mono">
-        <p>TODO:</p>
-        <ul className="list-inside list-disc">
-          <li>submission to api</li>
-          <li>validation</li>
-          <li>loading states</li>
-        </ul>
       </div>
     </form>
   )
