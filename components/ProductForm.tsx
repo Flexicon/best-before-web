@@ -19,6 +19,7 @@ type Props = {
   product?: Partial<Product>
   disabled: boolean
   deletable?: boolean
+  error?: string | null
   onSubmit: (values: ProductFormValues) => void
   onDelete?: () => void
 }
@@ -27,6 +28,7 @@ export const ProductForm = ({
   product = {},
   disabled,
   deletable = false,
+  error,
   onSubmit,
   onDelete = () => {},
 }: Props) => {
@@ -109,6 +111,8 @@ export const ProductForm = ({
           </button>
         )}
       </div>
+
+      {!!error && <p className="pt-4 text-sm italic text-red-500">Request failed: {error}</p>}
     </form>
   )
 }

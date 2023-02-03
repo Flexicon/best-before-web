@@ -13,7 +13,6 @@ const NewProductPage = () => {
 
   const [busy, setBusy] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const hasFormError = !busy && !!formError
 
   const onSubmit = useCallback(
     async (form: ProductFormValues) => {
@@ -41,12 +40,8 @@ const NewProductPage = () => {
       <div className="card w-[500px] max-w-full">
         <h2 className="mb-6 text-2xl">New Product</h2>
 
-        <ProductForm disabled={busy} onSubmit={onSubmit} />
+        <ProductForm disabled={busy} error={formError} onSubmit={onSubmit} />
       </div>
-
-      {hasFormError && (
-        <p className="pt-4 text-sm italic text-red-500">Request failed: {formError}</p>
-      )}
     </div>
   )
 }

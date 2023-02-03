@@ -26,7 +26,6 @@ const ProductPage = ({ product, isError }: Props) => {
 
   const [busy, setBusy] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
-  const hasFormError = !busy && !!formError
 
   const handlePersist = useCallback(
     async (persistFn: () => Promise<any>) => {
@@ -84,15 +83,12 @@ const ProductPage = ({ product, isError }: Props) => {
         <ProductForm
           product={product}
           disabled={busy}
+          error={formError}
           onSubmit={onSubmit}
           onDelete={onDelete}
           deletable
         />
       </div>
-
-      {hasFormError && (
-        <p className="pt-4 text-sm italic text-red-500">Request failed: {formError}</p>
-      )}
 
       {/* TODO: remove when appropriate 🤷‍♂️ */}
       <hr className="my-10" />
