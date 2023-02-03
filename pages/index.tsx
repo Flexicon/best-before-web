@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     }
 
-  const { data: products, error } = await supabase.from('products').select('*').order('id')
+  const { data: products, error } = await supabase.from('products').select('*').order('expiry_date')
 
   return {
     props: {
