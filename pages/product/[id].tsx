@@ -81,7 +81,13 @@ const ProductPage = ({ product, isError }: Props) => {
       <div className="card w-[500px] max-w-full">
         <h2 className="mb-6 text-2xl">Edit Product #{product.id}</h2>
 
-        <ProductForm product={product} disabled={busy} onSubmit={onSubmit} onDelete={onDelete} />
+        <ProductForm
+          product={product}
+          disabled={busy}
+          onSubmit={onSubmit}
+          onDelete={onDelete}
+          deletable
+        />
       </div>
 
       {hasFormError && (

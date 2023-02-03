@@ -16,13 +16,20 @@ export interface ProductFormValues {
 }
 
 type Props = {
-  product: Product
+  product?: Partial<Product>
   disabled: boolean
+  deletable?: boolean
   onSubmit: (values: ProductFormValues) => void
-  onDelete: () => void
+  onDelete?: () => void
 }
 
-export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) => {
+export const ProductForm = ({
+  product = {},
+  disabled,
+  deletable = false,
+  onSubmit,
+  onDelete = () => {},
+}: Props) => {
   const nameInput = useRef<HTMLInputElement>(null)
   const expiryDateInput = useRef<HTMLInputElement>(null)
   const iconInput = useRef<HTMLSelectElement>(null)
@@ -90,15 +97,17 @@ export const ProductForm = ({ product, disabled, onSubmit, onDelete }: Props) =>
           Save
         </button>
 
-        <button
-          className="button danger flex items-center gap-2"
-          onClick={handleDelete}
-          type="button"
-          disabled={disabled}
-        >
-          <BiTrash />
-          <span>Delete</span>
-        </button>
+        {deletable && (
+          <button
+            className="button danger flex items-center gap-2"
+            onClick={handleDelete}
+            type="button"
+            disabled={disabled}
+          >
+            <BiTrash />
+            <span>Delete</span>
+          </button>
+        )}
       </div>
     </form>
   )
