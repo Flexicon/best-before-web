@@ -13,9 +13,9 @@ const iconOptions: Record<IconValues, string> = {
 const iconKeys = Object.keys(iconOptions) as [string, ...string[]]
 
 const schema = z.object({
-  name: z.string().min(1, { message: 'Required' }),
-  expiry_date: z.coerce.date(),
-  icon: z.enum(iconKeys),
+  name: z.string().min(3, { message: 'Name must contain at least 3 characters' }),
+  expiry_date: z.string().min(10, { message: 'Required' }),
+  icon: z.string().min(1, { message: 'Required' }).and(z.enum(iconKeys)),
 })
 
 export interface ProductFormValues {
@@ -83,7 +83,15 @@ export const ProductForm = ({
         <label htmlFor="icon">Icon</label>
 
         <div className="select-wrapper">
-          <select id="icon" defaultValue={product.icon} disabled={disabled} {...register('icon')}>
+          <select
+            id="icon"
+            defaultValue={product.icon || ''}
+            disabled={disabled}
+            {...register('icon')}
+          >
+            <option value="" disabled>
+              Pick one...
+            </option>
             {Object.entries(iconOptions).map(([icon, label]) => (
               <option key={`${icon}-${label}`} value={icon}>
                 {label}
