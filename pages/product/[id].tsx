@@ -89,19 +89,6 @@ const ProductPage = ({ product, isError }: Props) => {
           deletable
         />
       </div>
-
-      {/* TODO: remove when appropriate 🤷‍♂️ */}
-      <hr className="my-10" />
-      <div className="font-mono">
-        <p>TODO:</p>
-        <ul className="list-inside list-disc">
-          <li className="line-through">submission to api</li>
-          <li>validation</li>
-          <li className="line-through">loading states</li>
-          <li className="line-through">date picker</li>
-          <li className="line-through">icons select</li>
-        </ul>
-      </div>
     </div>
   )
 }

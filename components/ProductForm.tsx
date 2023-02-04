@@ -1,5 +1,7 @@
-import { FormEventHandler, useRef } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import { BiTrash } from 'react-icons/bi'
+import { z } from 'zod'
 
 import { IconValues, Product } from 'types'
 
@@ -8,6 +10,13 @@ const iconOptions: Record<IconValues, string> = {
   pills: 'Bottle of pills',
   food: 'Food',
 }
+const iconKeys = Object.keys(iconOptions) as [string, ...string[]]
+
+const schema = z.object({
+  name: z.string().min(1, { message: 'Required' }),
+  expiry_date: z.coerce.date(),
+  icon: z.enum(iconKeys),
+})
 
 export interface ProductFormValues {
   name: string
@@ -24,6 +33,11 @@ type Props = {
   onDelete?: () => void
 }
 
+const FormError = ({ errors, field }: { errors: any; field: string }) =>
+  errors[field]?.message ? (
+    <p className="pt-1 text-sm text-red-500">{errors[field]?.message}</p>
+  ) : null
+
 export const ProductForm = ({
   product = {},
   disabled,
@@ -32,59 +46,44 @@ export const ProductForm = ({
   onSubmit,
   onDelete = () => {},
 }: Props) => {
-  const nameInput = useRef<HTMLInputElement>(null)
-  const expiryDateInput = useRef<HTMLInputElement>(null)
-  const iconInput = useRef<HTMLSelectElement>(null)
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-
-    const values: ProductFormValues = {
-      name: nameInput.current?.value || '',
-      expiry_date: expiryDateInput.current?.value || '',
-      icon: (iconInput.current?.value || 'pill') as IconValues,
-    }
-
-    onSubmit(values)
-  }
+  const {
+    register,
+    handleSubmit: zHandleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  })
 
   const handleDelete = () => {
     if (confirm(`Delete ${product.name}?`)) onDelete()
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={zHandleSubmit((d) => onSubmit(d as ProductFormValues))}>
       <div className="input-field">
         <label htmlFor="name">Product Name</label>
 
-        <input
-          ref={nameInput}
-          type="text"
-          name="name"
-          id="name"
-          defaultValue={product.name}
-          disabled={disabled}
-        />
+        <input type="text" defaultValue={product.name} disabled={disabled} {...register('name')} />
+        <FormError errors={errors} field="name" />
       </div>
 
       <div className="input-field">
         <label htmlFor="expiry_date">Expiry Date</label>
 
         <input
-          ref={expiryDateInput}
           type="date"
-          name="expiry_date"
-          id="expiry_date"
           defaultValue={product.expiry_date}
           disabled={disabled}
+          {...register('expiry_date')}
         />
+        <FormError errors={errors} field="expiry_date" />
       </div>
 
       <div className="input-field">
         <label htmlFor="icon">Icon</label>
 
         <div className="select-wrapper">
-          <select ref={iconInput} id="icon" defaultValue={product.icon} disabled={disabled}>
+          <select id="icon" defaultValue={product.icon} disabled={disabled} {...register('icon')}>
             {Object.entries(iconOptions).map(([icon, label]) => (
               <option key={`${icon}-${label}`} value={icon}>
                 {label}
@@ -92,6 +91,7 @@ export const ProductForm = ({
             ))}
           </select>
         </div>
+        <FormError errors={errors} field="icon" />
       </div>
 
       <div className="mt-7 flex gap-1">
