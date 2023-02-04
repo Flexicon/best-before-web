@@ -24,6 +24,20 @@ export interface ProductFormValues {
   icon: IconValues
 }
 
+const defaultExpiryDate = () => {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = (today.getMonth() + 1).toString().padStart(2, '0')
+  const day = today.getDate().toString().padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
+const FormError = ({ errors, field }: { errors: any; field: string }) =>
+  errors[field]?.message ? (
+    <p className="pt-1 text-sm text-red-500">{errors[field]?.message}</p>
+  ) : null
+
 type Props = {
   product?: Partial<Product>
   disabled: boolean
@@ -32,11 +46,6 @@ type Props = {
   onSubmit: (values: ProductFormValues) => void
   onDelete?: () => void
 }
-
-const FormError = ({ errors, field }: { errors: any; field: string }) =>
-  errors[field]?.message ? (
-    <p className="pt-1 text-sm text-red-500">{errors[field]?.message}</p>
-  ) : null
 
 export const ProductForm = ({
   product = {},
@@ -72,7 +81,7 @@ export const ProductForm = ({
 
         <input
           type="date"
-          defaultValue={product.expiry_date}
+          defaultValue={product.expiry_date || defaultExpiryDate()}
           disabled={disabled}
           {...register('expiry_date')}
         />
