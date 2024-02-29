@@ -78,7 +78,9 @@ const ProductPage = ({ product, isError }: Props) => {
   return (
     <div className="pt-5">
       <div className="card w-[500px] max-w-full">
-        <h2 className="mb-6 text-2xl">Edit Product #{product.id}</h2>
+        <h2 className="mb-6 text-2xl">
+          {product.name} (#{product.id})
+        </h2>
 
         <ProductForm
           product={product}

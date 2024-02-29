@@ -59,7 +59,7 @@ export const ProductForm = ({
     register,
     handleSubmit: zHandleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<ProductFormValues>({
     resolver: zodResolver(schema),
   })
 
@@ -68,7 +68,7 @@ export const ProductForm = ({
   }
 
   return (
-    <form onSubmit={zHandleSubmit((d) => onSubmit(d as ProductFormValues))}>
+    <form onSubmit={zHandleSubmit(onSubmit)}>
       <div className="input-field">
         <label htmlFor="name">Product Name</label>
 
